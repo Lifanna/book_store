@@ -1,0 +1,37 @@
+{% extends "base_login.html" %}
+{% block content %}
+    <div class="col-12 col-md-6 offset-md-3 offset-md-3">
+      <div class="card border-0 p-3 mb-5 rounded bg-auth shadow-auth">
+        <div class="card-title text-center mt-4">
+          <h1>Изменение профиля</h1>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            <div class="text-danger">
+                {{ form.errors }}
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Фамилия</label>
+              <input value="{{ object.last_name }}" type="text" name="last_name" class="form-control p-2 br-10" id="formGroupExampleInput" placeholder="Введите вашу фамилию">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Имя</label>
+              <input value="{{ object.first_name }}" type="text" name="first_name" class="form-control p-2 br-10" id="formGroupExampleInput" placeholder="Введите ваше имя">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput2">Email</label>
+              <input value="{{ object.email }}" type="email" name="username" class="form-control p-2 br-10" id="formGroupExampleInput2" placeholder="Введите ваш email">
+            </div>
+            <div class="form-group">
+                <a href="/users/edit/password/{{ object.id }}" class="btn btn-warning">Сменить пароль</a>
+            </div>
+            <div class="form-group text-center">
+              <button type="submit" class="btn btn-success btn-block p-2">Подтвердить</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

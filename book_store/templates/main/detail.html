@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-12 col-md-4 p-2 d-flex flex-column flex-md-row">
+        <img class="card-img-top" src="{{ book.image.url }}" alt="Card image cap">
+    </div>
+    <div class="col-12 col-md-8 p-2 d-flex flex-column">
+        {% comment %} <div class="ml-0 ml-md-4 d-flex flex-column justify-content-between"> {% endcomment %}
+            <div class="d-flex flex-column text-left">
+                <p class="h5">{{ book.name }}</p>
+            </div>
+            <div class="d-flex flex-column text-left">
+                <h4 class="my-2">О книге</h4>
+                <p class="my-2">{{ book.description }}</p>
+            </div>
+            <div class="d-flex flex-column text-left">
+                <h4 class="my-2">Характеристики</h4>
+                <div class="d-flex flex-column text-left">
+                    <div class="d-flex">
+                        <p class="my-2 font-weight-bold">Автор(-ы): </p>
+                        {% for author in book.authors.all %}
+                            <p class="my-2 ml-2">{{ author.last_name }} {{ author.first_name }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex text-left">
+                        <p class="my-2 font-weight-bold">Издательство: </p>
+                        <p class="my-2 ml-2">БХВ "Петербург"</p>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex text-left">
+                <button class="btn btn-info mr-2" id="addToCartBtn">В корзину <i class="fas fa-shopping-cart"></i></button>
+                <button class="btn text-info" style="background-color: transparent!important" disabled>{{ book.price }} ₽</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
