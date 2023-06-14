@@ -30,10 +30,10 @@
                         <button class="btn my-2 p-0 font-weight-bold" style="background-color: transparent!important">Рейтинг: </button>
                         <button class="btn my-2 p-0 ml-2" style="background-color: transparent!important" id="bookRating" data-rating="{{ book.rating }}">{{ book.rating|floatformat:1 }}/10 
                             {% if request.user.is_authenticated %}
-                            {% if book_rated %}
-                            {% else %}
-                            <button type="button" id="setRatingBtn" class="btn btn-success ml-3">Оценить <i class="fa fa-thumbs-up"></i></button>
-                            {% endif %}
+                              {% if book_rated %}
+                              {% else %}
+                                <button type="button" id="setRatingBtn" class="btn btn-success ml-3">Оценить <i class="fa fa-thumbs-up"></i></button>
+                              {% endif %}
                             {% endif %}
                         </button>
                     </div>

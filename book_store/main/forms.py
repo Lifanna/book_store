@@ -17,6 +17,7 @@ class CustomUserRegistrationForm(UserCreationForm):
         user.set_password(self.cleaned_data["password1"])
         user.username = self.cleaned_data["username"]
         user.email = self.cleaned_data["username"]
+        user.is_active = True
         if commit:
             user.save()
 

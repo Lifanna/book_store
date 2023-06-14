@@ -31,6 +31,9 @@
                 <div class="col-12 col-md-8 align-self-center">
                   <ul class="navbar-nav mr-auto mt-2 ml-3 ml-md-0 mt-lg-0 justify-content-end">
                     <li class="nav-item">
+                      <a class="nav-link text-dark hover-purple" href="/">Главная</a>
+                    </li>
+                    <li class="nav-item">
                       <a class="nav-link text-dark hover-purple" href="/catalog">Каталог</a>
                     </li>
                     {% comment %} <li class="nav-item">
@@ -44,7 +47,7 @@
                     </li>
                     {% if request.user.is_authenticated %}
                         <li class="nav-item">
-                        <a class="nav-link mt-1" href="#"><i class="fa fa-history text-dark" aria-hidden="true" style="font-size: 20px;"></i></a>
+                        <a class="nav-link mt-1" href="/orders/history"><i class="fa fa-history text-dark" aria-hidden="true" style="font-size: 20px;"></i></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link mt-1" href="/profile/{{ request.user.id }}"><i class="fa fa-user text-dark" aria-hidden="true" style="font-size: 20px;"></i></a>
