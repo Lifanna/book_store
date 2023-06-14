@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load widget_tweaks %}
+    <div class="col-12">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <h2>Оплата заказа</h2>
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                        {% if field.name == 'delivery' %}
+                            <div class="form-group text-left">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <select name="delivery" class="form-control">
+                                    <option value="Самовывоз">Самовывоз</option>
+                                    <option value="Курьером">Курьером</option>
+                                </select>
+                                {% for error in field.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="form-group text-left">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% render_field field class="form-control" placeholder=field.label %}
+                                {% for error in field.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok"></span> Оформить покупку
+                        </button>
+                        <a href="/" class="btn btn-default">Назад</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+{% endblock %}

@@ -29,6 +29,14 @@ urlpatterns = [
     path('profile/<int:pk>', views.CustomProfileView.as_view(), name="profile"),
     path('users/edit/password/<int:pk>', views.CustomUserPasswordChangeView.as_view(), name='users_change_password'),
     path('cart', views.CartListView.as_view(), name="cart"),
+    path('orders/add', views.OrderCreateView.as_view(), name="order_add"),
+    path('purchase/add', views.PurchaseCreateView.as_view(), name="purchase_add"),
+    path('purchase/success', views.PurchaseSuccessView.as_view(), name="purchase_success"),
+    path('catalog', views.CatalogListView.as_view(), name="catalog_list"),
+    path('genres/<int:pk>', views.GenreDetailView.as_view(), name="genre_detail"),
+    path('orders/history', views.OrderHistoryListView.as_view(), name="order_history_list"),
+    path('search', views.MainView.as_view(), name="search"),
+    path('set_rating', views.SetRatingAPIView.as_view(), name="set_rating"),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

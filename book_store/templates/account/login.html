@@ -27,10 +27,10 @@
                         <label for="formGroupExampleInput2">Пароль</label>
                         <input type="password" name="password" class="form-control p-2 br-10" id="formGroupExampleInput2" placeholder="Пароль">
                     </div>
-                    <div class="form-group">
+                    {% comment %} <div class="form-group"> {% endcomment %}
                         {% comment %} <a href="{% url 'password_reset' %}" class="">Забыли пароль?</a> {% endcomment %}
-                        <a href="#" class="">Забыли пароль?</a>
-                    </div>
+                        {% comment %} <a href="#" class="">Забыли пароль?</a> {% endcomment %}
+                    {% comment %} </div> {% endcomment %}
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-success btn-block px-3 py-2">Войти</button>
                     </div>

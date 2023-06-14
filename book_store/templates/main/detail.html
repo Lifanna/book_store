@@ -2,12 +2,12 @@
 
 {% block content %}
     <div class="col-12 col-md-4 p-2 d-flex flex-column flex-md-row">
-        <img class="card-img-top" src="{{ book.image.url }}" alt="Card image cap">
+        <img class="card-img-top" id="bookImage" src="{{ book.image.url }}" alt="Card image cap">
     </div>
     <div class="col-12 col-md-8 p-2 d-flex flex-column">
         {% comment %} <div class="ml-0 ml-md-4 d-flex flex-column justify-content-between"> {% endcomment %}
             <div class="d-flex flex-column text-left">
-                <p class="h5">{{ book.name }}</p>
+                <p class="h3" id="bookName" data-book-name="{{ book.name }}">{{ book.name }}</p>
             </div>
             <div class="d-flex flex-column text-left">
                 <h4 class="my-2">О книге</h4>
@@ -26,12 +26,73 @@
                         <p class="my-2 font-weight-bold">Издательство: </p>
                         <p class="my-2 ml-2">БХВ "Петербург"</p>
                     </div>
+                    <div class="d-flex text-left align-items-center mt-3">
+                        <button class="btn my-2 p-0 font-weight-bold" style="background-color: transparent!important">Рейтинг: </button>
+                        <button class="btn my-2 p-0 ml-2" style="background-color: transparent!important" id="bookRating" data-rating="{{ book.rating }}">{{ book.rating|floatformat:1 }}/10 
+                            {% if request.user.is_authenticated %}
+                            {% if book_rated %}
+                            {% else %}
+                            <button type="button" id="setRatingBtn" class="btn btn-success ml-3">Оценить <i class="fa fa-thumbs-up"></i></button>
+                            {% endif %}
+                            {% endif %}
+                        </button>
+                    </div>
+                    <div class="d-flex text-left mb-2">
+                        <p class="my-2 font-weight-bold">Цена:</p>
+                        <p class="my-2 ml-2">{{ book.price }} ₽</p>
+                    </div>
                 </div>
             </div>
             <div class="d-flex flex text-left">
+                <input type="hidden" id="bookId" value="{{ book.id }}">
                 <button class="btn btn-info mr-2" id="addToCartBtn">В корзину <i class="fas fa-shopping-cart"></i></button>
-                <button class="btn text-info" style="background-color: transparent!important" disabled>{{ book.price }} ₽</button>
+                <input type="hidden" class="btn text-info" style="background-color: transparent!important" id="bookPrice" data-price="{{ book.price|stringformat:"s" }}">
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="addedToCartModal" tabindex="-1" role="dialog" aria-labelledby="addedToCartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addedToCartModalLabel">Товар успешно добавлен в корзину!</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="setRatingModal" tabindex="-1" role="dialog" aria-labelledby="setRatingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="setRatingModalLabel">Оцените товар по шкале от 1 до 10</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body d-flex justify-content-between" id="ratingModalContent">
+                <button type="button" class="btn btn-secondary text-warning submitRatingBtn" data-bookid="{{ book.id }}" data-rating="1">1</button>
+                <button type="button" class="btn btn-secondary text-warning submitRatingBtn" data-bookid="{{ book.id }}" data-rating="2">2</button>
+                <button type="button" class="btn btn-secondary text-warning submitRatingBtn" data-bookid="{{ book.id }}" data-rating="3">3</button>
+                <button type="button" class="btn btn-secondary text-warning submitRatingBtn" data-bookid="{{ book.id }}" data-rating="4">4</button>
+                <button type="button" class="btn btn-secondary text-warning submitRatingBtn" data-bookid="{{ book.id }}" data-rating="5">5</button>
+                <button type="button" class="btn btn-secondary text-warning submitRatingBtn" data-bookid="{{ book.id }}" data-rating="6">6</button>
+                <button type="button" class="btn btn-secondary text-warning submitRatingBtn" data-bookid="{{ book.id }}" data-rating="7">7</button>
+                <button type="button" class="btn btn-secondary text-warning submitRatingBtn" data-bookid="{{ book.id }}" data-rating="8">8</button>
+                <button type="button" class="btn btn-secondary text-warning submitRatingBtn" data-bookid="{{ book.id }}" data-rating="9">9</button>
+                <button type="button" class="btn btn-secondary text-warning submitRatingBtn" data-bookid="{{ book.id }}" data-rating="10">10</button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    <script src="/static/js/cart.js"></script>
 {% endblock %}

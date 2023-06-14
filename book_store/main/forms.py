@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from main import models
@@ -6,6 +6,8 @@ from django.contrib.auth.password_validation import validate_password
 import os
 from uuid import uuid4
 from django.core.files import File
+import json
+from django.core.serializers import serialize
 
 
 class CustomUserRegistrationForm(UserCreationForm):
@@ -65,3 +67,34 @@ class CustomUserPasswordChangeForm(forms.ModelForm):
     class Meta:
         model = models.CustomUser
         fields = ('id', 'password',)
+
+
+class PurchaseCreateForm(forms.ModelForm):
+    card_number = forms.CharField(label="Номер карты", widget=forms.TextInput(attrs={'data-mask':"0000-0000-0000-0000"}))
+
+    card_expiration_date = forms.CharField(label="Срок действия", widget=forms.TextInput(attrs={'data-mask':"00/00"}))
+
+    def clean(self):
+        self.cleaned_data['card_number'] = self.cleaned_data['card_number'].replace('-', '')
+
+        return super(PurchaseCreateForm, self).clean()
+
+    def save(self, commit=True):
+        instance = super(PurchaseCreateForm, self).save(commit=False)
+        self.cleaned_data['card_number'] = self.cleaned_data['card_number'].replace('-', '')
+
+        orders = models.Order.objects.filter(user__id=self.cleaned_data['user'], is_done=False)
+        instance.orders = {'orders': list(orders.values_list('id', flat=True))}
+        instance.user = models.CustomUser.objects.get(pk=self.cleaned_data['user'])
+
+        instance.save()
+
+        for order in orders:
+            order.is_done = True
+            order.save()
+
+        return instance
+
+    class Meta:
+        model = models.Purchase
+        fields = ('card_number', 'card_type', 'card_expiration_date', 'delivery',)

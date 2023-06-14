@@ -1,13 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="col-12 col-md-2 my-2">
-        <img class="" src="/static/images/banner.jpg" width="80" height="80" alt="Card image cap">
-    </div>
-    <div class="col-12 col-md-6 text-left">
-        Печать Нострадамуса. Тайна последнего предсказания
-        Оксана Пелевина
-    </div>
     <style>
         a.product_count {
             background-color: transparent!important;
@@ -17,63 +10,59 @@
             cursor:pointer;
         }
     </style>
-    <div class="col-12 col-md-2 p-2 d-flex">
-        <button class="btn" style="background-color: transparent!important"><i class="fa fa-minus"></i></button>
-        <a class="btn product_count font-weight-bold" style="">3</a>
-        <button class="btn" style="background-color: transparent!important"><i class="fa fa-plus"></i></button>
+    <div class="col-12">
+        <h3>Корзина товаров</h3>
     </div>
-    <div class="col-12 col-md-2 p-2 d-flex">
-        <a class="btn product_count font-weight-bold" style="">615 ₽</a>
-        <button class="btn" style="background-color: transparent!important"><i class="fa fa-trash text-danger"></i></button>
+    <div id="cartDiv" class="col-12 col-lg-9 row">
+        
     </div>
-    <div class="col-12 col-md-2 my-2">
-        <img class="" src="/static/images/banner.jpg" width="80" height="80" alt="Card image cap">
+    <div class="modal fade" id="addedToCartModal" tabindex="-1" role="dialog" aria-labelledby="addedToCartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addedToCartModalLabel">Заказ успешно оформлен!</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <a href="/purchase/add" type="button" class="btn btn-block p-2 br-10 text-forest-green text-white">Перейти к оплате</a>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+          </div>
+        </div>
     </div>
-    <div class="col-12 col-md-6 text-left">
-        Печать Нострадамуса. Тайна последнего предсказания
-        Оксана Пелевина
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="errorModalLabel">Произошла ошибка! Повторите еще раз</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+          </div>
+        </div>
     </div>
-    <style>
-        a.product_count {
-            background-color: transparent!important;
-            cursor:pointer;
-        }
-        a.product_count:hover {
-            cursor:pointer;
-        }
-    </style>
-    <div class="col-12 col-md-2 p-2 d-flex">
-        <button class="btn" style="background-color: transparent!important"><i class="fa fa-minus"></i></button>
-        <a class="btn product_count font-weight-bold" style="">3</a>
-        <button class="btn" style="background-color: transparent!important"><i class="fa fa-plus"></i></button>
+    <div class="modal fade" id="unauthorizedModal" tabindex="-1" role="dialog" aria-labelledby="unauthorizedModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="unauthorizedModalLabel">Для оформления заказа <a href="/login" class="text-primary" style="text-decoration:none;">войдите</a> или <a href="/registration" class="text-success" style="text-decoration:none;">зарегистрируйтесь</a></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+          </div>
+        </div>
     </div>
-    <div class="col-12 col-md-2 p-2 d-flex">
-        <a class="btn product_count font-weight-bold" style="">615 ₽</a>
-        <button class="btn" style="background-color: transparent!important"><i class="fa fa-trash text-danger"></i></button>
-    </div>
-    <div class="col-12 col-md-2 my-2">
-        <img class="" src="/static/images/banner.jpg" width="80" height="80" alt="Card image cap">
-    </div>
-    <div class="col-12 col-md-6 text-left">
-        Печать Нострадамуса. Тайна последнего предсказания
-        Оксана Пелевина
-    </div>
-    <style>
-        a.product_count {
-            background-color: transparent!important;
-            cursor:pointer;
-        }
-        a.product_count:hover {
-            cursor:pointer;
-        }
-    </style>
-    <div class="col-12 col-md-2 p-2 d-flex">
-        <button class="btn" style="background-color: transparent!important"><i class="fa fa-minus"></i></button>
-        <a class="btn product_count font-weight-bold" style="">3</a>
-        <button class="btn" style="background-color: transparent!important"><i class="fa fa-plus"></i></button>
-    </div>
-    <div class="col-12 col-md-2 p-2 d-flex">
-        <a class="btn product_count font-weight-bold" style="">615 ₽</a>
-        <button class="btn" style="background-color: transparent!important"><i class="fa fa-trash text-danger"></i></button>
-    </div>
+    <script src="/static/js/cartIndex.js"></script>
 {% endblock %}

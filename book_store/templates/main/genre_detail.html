@@ -4,7 +4,7 @@
     {% for book in object_list %}
         <div class="col-12 col-md-4 p-2">
             <div class="card card-block" style="width: 18rem;">
-                <img class="card-img-top" width="170" height="280" src="{{ book.image.url }}" alt="Card image cap">
+                <img class="card-img-top" src="{{ book.image.url }}" alt="Card image cap">
                 <div class="card-body text-left">
                     <h5 class="card-title">{{ book.name }}</h5>
                     <p class="card-text">{{ book.description|truncatechars:80 }}</p>
@@ -15,5 +15,7 @@
                 </div>
             </div>
         </div>
+    {% empty %}
+        <h4>Список товаров пока пуст</h4>
     {% endfor %}
 {% endblock %}

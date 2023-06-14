@@ -70,6 +70,8 @@ class CustomUser(AbstractUser):
 class Genre(models.Model):
     name = models.CharField("Название жанра", max_length=255)
 
+    image = models.ImageField("Изображение", upload_to="genre_images/", null=True)
+
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
 
     updated_at = models.DateTimeField("Дата обновления", auto_now=True)
@@ -112,6 +114,8 @@ class Book(models.Model):
 
     image = models.ImageField("Изображение", upload_to="images/", null=True)
 
+    rating = models.FloatField("Рейтинг", null=True)
+
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
 
     updated_at = models.DateTimeField("Дата обновления", auto_now=True)
@@ -129,8 +133,12 @@ class Order(models.Model):
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="Книга")
 
+    quantity = models.PositiveBigIntegerField("Количество товара", null=True)
+
+    totalPrice = models.PositiveBigIntegerField("Общая цена товара", null=True)
+
     is_done = models.BooleanField("Статус", default=False)
-    
+
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
 
     updated_at = models.DateTimeField("Дата обновления", auto_now=True)
@@ -138,9 +146,24 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
-        
+
     def __str__(self):
         return self.user.email + " " + self.book.name
+
+
+class CardType(models.Model):
+    name = models.CharField("Название", max_length=255)
+
+    created_at = models.DateTimeField("Дата создания", auto_now_add=True)
+
+    updated_at = models.DateTimeField("Дата обновления", auto_now=True)
+
+    class Meta:
+        verbose_name = "Тип карты"
+        verbose_name_plural = "Типы карт"
+        
+    def __str__(self):
+        return self.name
 
 
 class Purchase(models.Model):
@@ -150,7 +173,7 @@ class Purchase(models.Model):
 
     card_number = models.CharField("Номер карты", max_length=16)
 
-    card_type = models.CharField("Тип карты", max_length=16)
+    card_type = models.ForeignKey(CardType, on_delete=models.CASCADE, verbose_name="Тип карты")
 
     card_expiration_date = models.CharField("Срок действия", max_length=16)
 
@@ -166,3 +189,22 @@ class Purchase(models.Model):
 
     def __str__(self):
         return self.user.email + str(self.orders)
+
+
+class BookRating(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="Книга")
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь")
+
+    rating = models.FloatField("Оценка", null=True)
+
+    created_at = models.DateTimeField("Дата создания", auto_now_add=True)
+
+    updated_at = models.DateTimeField("Дата обновления", auto_now=True)
+
+    class Meta:
+        verbose_name = "Оценка"
+        verbose_name_plural = "Оценки"
+
+    def __str__(self):
+        return self.book + " " + self.user

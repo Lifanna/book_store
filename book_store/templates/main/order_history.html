@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Статистика покупок</h3>
+    <div class="col-12 row">
+        <div class="col-12 col-md-3 my-3 d-flex flex-column justify-content-center font-weight-bold">
+            Товар
+        </div>
+        <div class="col-12 col-md-3 d-flex flex-column justify-content-center font-weight-bold">
+            Количество
+        </div>
+        <div class="col-12 col-md-3 d-flex flex-column justify-content-center font-weight-bold">
+            Общая стоимость
+        </div>
+        <div class="col-12 col-md-3 d-flex flex-column justify-content-center font-weight-bold">
+            Дата покупки
+        </div>
+        {% for order in object_list %}
+            <div class="col-12 col-md-3 my-3 d-flex flex-column justify-content-center">
+                {{ order.book.name }}
+            </div>
+            <div class="col-12 col-md-3 d-flex flex-column justify-content-center">
+                {{ order.quantity }} шт.
+            </div>
+            <div class="col-12 col-md-3 d-flex flex-column justify-content-center">
+                {{ order.totalPrice }} ₽
+            </div>
+            <div class="col-12 col-md-3 d-flex flex-column justify-content-center">
+                {{ order.updated_at|date:'d-m-Y H:i' }}
+            </div>
+        {% endfor %}
+        
+    </div>
+{% endblock %}
