@@ -52,7 +52,7 @@ $(document).ready(() => {
 
     $("#setRatingBtn").click(() => {
         $('#setRatingModal').modal();
-    })
+    });
 
     function getCookie(name) {
         var cookieValue = null;
@@ -94,5 +94,48 @@ $(document).ready(() => {
 
             }
         });
-    })
+    });
+
+    $(".reviewRatingBtn").click((event) => {
+        $("#reviewRating").val(event.currentTarget.attributes['data-rating'].value);
+    });
+
+    $("#submitReviewBtn").click((event) => {
+        let reviewRating = $("#reviewRating").val();
+        let reviewText = $("#reviewText").val();
+        let bookId = event.currentTarget.attributes['data-bookid'].value;
+
+        $.ajax({
+            url: '/set_review',
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": getCookie('csrftoken')
+            },
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                bookId: bookId,
+                reviewRating: reviewRating,
+                reviewText: reviewText
+            }),
+            success: (response) => {
+                $("#makeReviewBtn").remove();
+                $("#reviewsDiv").append(`
+                    <div class="col-12 col-md-3 my-2 my-md-0">
+                        <div class="d-flex flex-column justify-content-between">
+                            <span class="font-weight-bold">${response.first_name} ${response.last_name}</span>
+                            <span class="">${response.created_at}</span>
+                            <span class="text-warning font-weight-bold">${reviewRating}/10</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-9">${reviewText}</div>
+                `)
+                $("#reviewRating").val('');
+                $("#makeReviewModal").modal('hide');
+            },
+            error: (error) => {
+
+            }
+        });
+    });
 });

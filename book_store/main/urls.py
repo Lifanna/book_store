@@ -37,6 +37,7 @@ urlpatterns = [
     path('orders/history', views.OrderHistoryListView.as_view(), name="order_history_list"),
     path('search', views.MainView.as_view(), name="search"),
     path('set_rating', views.SetRatingAPIView.as_view(), name="set_rating"),
+    path('set_review', views.SetReviewAPIView.as_view(), name="set_review"),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

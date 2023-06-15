@@ -50,6 +50,25 @@
             </div>
         </div>
     </div>
+    <h3 class="mt-4">Отзывы о книге</h3>
+    {% if request.user.is_authenticated %}
+      {% if book_reviewed %}
+      {% else %}
+        <button class="btn btn-primary my-3" id="makeReviewBtn" data-toggle="modal" data-target="#makeReviewModal">Оставить отзыв</button>
+      {% endif %}
+    {% endif %}
+    <div class="col-12 p-2 row" id="reviewsDiv">
+      {% for review in reviews %}
+        <div class="col-12 col-md-3 my-2 my-md-0">
+          <div class="d-flex flex-column justify-content-between">
+            <span class="font-weight-bold">{{ review.user.first_name }} {{ review.user.last_name }}</span>
+            <span class="">{{ review.created_at|date:'d.m.Y' }}</span>
+            <span class="text-warning font-weight-bold">{{ review.review_rating|floatformat:0 }}/10</span>
+          </div>
+        </div>
+        <div class="col-12 col-md-9">{{ review.review_text }}</div>
+      {% endfor %}
+    </div>
 
     <div class="modal fade" id="addedToCartModal" tabindex="-1" role="dialog" aria-labelledby="addedToCartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -89,6 +108,44 @@
                 <button type="button" class="btn btn-secondary text-warning submitRatingBtn" data-bookid="{{ book.id }}" data-rating="10">10</button>
             </div>
             <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="makeReviewModal" tabindex="-1" role="dialog" aria-labelledby="makeReviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="makeReviewModalLabel">Ваш отзыв о книге</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body d-flex flex-column justify-content-between" id="ratingModalContent">
+                <div>
+                  <textarea id="reviewText" class="form-control" placeholder="Текст вашего отзыва" name="reviewText" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                  <h5 class="my-3" id="makeReviewModalLabel">Оцените книгу по шкале от 1 до 10</h5>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <button type="button" class="btn btn-secondary text-warning reviewRatingBtn" data-bookid="{{ book.id }}" data-rating="1">1</button>
+                  <button type="button" class="btn btn-secondary text-warning reviewRatingBtn" data-bookid="{{ book.id }}" data-rating="2">2</button>
+                  <button type="button" class="btn btn-secondary text-warning reviewRatingBtn" data-bookid="{{ book.id }}" data-rating="3">3</button>
+                  <button type="button" class="btn btn-secondary text-warning reviewRatingBtn" data-bookid="{{ book.id }}" data-rating="4">4</button>
+                  <button type="button" class="btn btn-secondary text-warning reviewRatingBtn" data-bookid="{{ book.id }}" data-rating="5">5</button>
+                  <button type="button" class="btn btn-secondary text-warning reviewRatingBtn" data-bookid="{{ book.id }}" data-rating="6">6</button>
+                  <button type="button" class="btn btn-secondary text-warning reviewRatingBtn" data-bookid="{{ book.id }}" data-rating="7">7</button>
+                  <button type="button" class="btn btn-secondary text-warning reviewRatingBtn" data-bookid="{{ book.id }}" data-rating="8">8</button>
+                  <button type="button" class="btn btn-secondary text-warning reviewRatingBtn" data-bookid="{{ book.id }}" data-rating="9">9</button>
+                  <button type="button" class="btn btn-secondary text-warning reviewRatingBtn" data-bookid="{{ book.id }}" data-rating="10">10</button>
+                </div>
+                <input type="hidden" id="reviewRating" value="1">
+              </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-bookid="{{ book.id }}" id="submitReviewBtn">Подтвердить</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
             </div>
           </div>

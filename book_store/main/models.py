@@ -208,3 +208,24 @@ class BookRating(models.Model):
 
     def __str__(self):
         return self.book + " " + self.user
+
+
+class BookReview(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="Книга")
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь")
+
+    review_text = models.TextField("Текст отзыва", null=True)
+
+    review_rating = models.FloatField("Оценка", null=True)
+
+    created_at = models.DateTimeField("Дата создания", auto_now_add=True)
+
+    updated_at = models.DateTimeField("Дата обновления", auto_now=True)
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+
+    def __str__(self):
+        return self.book + " " + self.user

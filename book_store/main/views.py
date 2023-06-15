@@ -72,8 +72,13 @@ class BookDetailView(DetailView):
 
         if self.request.user.is_authenticated:
             context['book_rated'] = models.BookRating.objects.filter(book__id=self.kwargs.get('pk'), user=self.request.user).exists()
+            context['book_reviewed'] = models.BookReview.objects.filter(book__id=self.kwargs.get('pk'), user=self.request.user).exists()
         else:
             context['book_rated'] = False
+            context['book_reviewed'] = False
+
+        context['reviews'] = models.BookReview.objects.filter(book__id=self.kwargs.get('pk'))
+
         return context
 
 
@@ -237,3 +242,35 @@ class SetRatingAPIView(APIView):
         statusCode = status.HTTP_201_CREATED
 
         return Response({'new_rating': round(rating, 1)}, status=statusCode)
+
+
+class SetReviewAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        book_id = request.data.get('bookId')
+        review_text = request.data.get('reviewText')
+        review_rating = request.data.get('reviewRating')
+
+        statusCode = status.HTTP_200_OK
+
+        if request.user.is_authenticated == False:
+            return Response({'success': 'unauthorized'}, status=statusCode)
+        
+        book = models.Book.objects.get(pk=book_id)
+
+        book_review = models.BookReview(
+            user = request.user,
+            book = book,
+            review_text = review_text,
+            review_rating = review_rating,
+        )
+
+        book_review.save()
+
+        statusCode = status.HTTP_201_CREATED
+
+        return Response({'first_name': request.user.first_name, 
+                         'last_name': request.user.last_name,
+                         'created_at': book_review.created_at.strftime('%d.%m.%Y'),
+                         }, status=statusCode)
